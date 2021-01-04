@@ -1,0 +1,29 @@
+diff --git a/cucumber/events-scenarios.steps.ts b/cucumber/events-scenarios.steps.ts
+index 30f885c..8ac37fd 100644
+--- a/cucumber/events-scenarios.steps.ts
++++ b/cucumber/events-scenarios.steps.ts
+@@ -1,15 +1,19 @@
+ import { loadFeature, defineFeature } from 'jest-cucumber'
++import fs from 'fs'
+ 
+ defineFeature(loadFeature('cucumber/events-scenarios.feature'), test => {
+ 	test('Creating events from an existing file', ({ given, when, then }) => {
++		const eventsFile = '../events.json'
++		let events
+ 		given('I have an existing file with two events registered', () => {
+-			pending()
++			expect(fs.existsSync(eventsFile)).toBeTruthy
+ 		})
+ 		when('I import this file', () => {
+-			pending()
++			events = require(eventsFile)
++			expect(events !== null).toBeTruthy
+ 		})
+ 		then('two event should be imported', () => {
+-			pending()
++			expect(events.length == 2).toBeTruthy
+ 		})
+ 	})
+-})
++})
+\ No newline at end of file
