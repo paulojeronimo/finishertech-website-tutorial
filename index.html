@@ -5,7 +5,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <meta name="generator" content="Asciidoctor 2.0.10">
-<meta name="author" content="Paulo Jerônimo &lt;pj@paulojeronimo.com&gt;, 2021-01-04 15:42:39 -0300">
+<meta name="author" content="Paulo Jerônimo &lt;pj@paulojeronimo.com&gt;, 2021-01-05 07:05:57 -0300">
 <title>Finisher.Tech website tutorial</title>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Open+Sans:300,300italic,400,400italic,600,600italic%7CNoto+Serif:400,400italic,700,700italic%7CDroid+Sans+Mono:400,700">
 <style>
@@ -442,25 +442,40 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 <div id="header">
 <h1>Finisher.Tech website tutorial</h1>
 <div class="details">
-<span id="author" class="author">Paulo Jerônimo &lt;pj@paulojeronimo.com&gt;, 2021-01-04 15:42:39 -0300</span><br>
+<span id="author" class="author">Paulo Jerônimo &lt;pj@paulojeronimo.com&gt;, 2021-01-05 07:05:57 -0300</span><br>
 </div>
 <div id="toc" class="toc2">
 <div id="toctitle">Table of Contents</div>
 <ul class="sectlevel1">
 <li><a href="#introduction">1. Introduction</a></li>
-<li><a href="#software-requirements">2. Software requirements</a></li>
-<li><a href="#software-versions">3. Software versions</a></li>
-<li><a href="#our-starting-point">4. Our starting point</a>
+<li><a href="#software">2. Software</a>
 <ul class="sectlevel2">
-<li><a href="#downloading-this-tutorial">4.1. Downloading this tutorial</a></li>
-<li><a href="#downloading-and-testing-finisher-tech-website-0-9-2">4.2. Downloading and testing Finisher.Tech website 0.9.2</a></li>
+<li><a href="#requirements">2.1. Requirements</a></li>
+<li><a href="#versions">2.2. Versions</a></li>
 </ul>
 </li>
-<li><a href="#generating-and-reading-the-file-events-json-from-an-independent-github-repository">5. Generating and reading the file events.json from an independent GitHub repository</a>
+<li><a href="#our-starting-point">3. Our starting point</a>
 <ul class="sectlevel2">
-<li><a href="#creating-the-repository-and-reading-the-file-from-it">5.1. Creating the repository and reading the file from it</a></li>
+<li><a href="#downloading-this-tutorial">3.1. Downloading this tutorial</a></li>
+<li><a href="#downloading-and-testing-finisher-tech-website-0-9-2">3.2. Downloading and testing Finisher.Tech website 0.9.2</a></li>
 </ul>
 </li>
+<li><a href="#generating-and-reading-the-file-events-json-from-an-independent-github-repository">4. Generating and reading the file events.json from an independent GitHub repository</a>
+<ul class="sectlevel2">
+<li><a href="#creating-the-repository-and-reading-the-file-from-it">4.1. Creating the repository and reading the file from it</a></li>
+<li><a href="#creating-events-yaml-and-generating-events-json-from-it">4.2. Creating events.yaml and generating events.json from it</a>
+<ul class="sectlevel3">
+<li><a href="#creating-events-yaml-from-events-json">4.2.1. Creating events.yaml from events.json</a></li>
+<li><a href="#converting-body-element-to-asciidoc-format">4.2.2. Converting body element to AsciiDoc format</a></li>
+<li><a href="#validating-events-yaml">4.2.3. Validating events.yaml</a></li>
+</ul>
+</li>
+<li><a href="#using-asciidoctor-js">4.3. Using Asciidoctor.js</a></li>
+<li><a href="#creating-events-json-programatically">4.4. Creating events.json programatically</a></li>
+<li><a href="#puting-aside-events-yaml-and-generating-events-json-from-individuals-asciidoc-files">4.5. Puting aside events.yaml and generating events.json from individuals AsciiDoc files</a></li>
+</ul>
+</li>
+<li><a href="#adicional-resources">5. Adicional resources</a></li>
 </ul>
 </div>
 </div>
@@ -468,13 +483,39 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 <div class="sect1">
 <h2 id="introduction"><a class="anchor" href="#introduction"></a>1. Introduction</h2>
 <div class="sectionbody">
+<div class="admonitionblock warning">
+<table>
+<tr>
+<td class="icon">
+<i class="fa icon-warning" title="Warning"></i>
+</td>
+<td class="content">
+This tutorial in under construction!
+</td>
+</tr>
+</table>
+</div>
 <div class="paragraph">
 <p>In this tutorial, we&#8217;ll upgrade the <a href="https://finisher.tech" target="_blank" rel="noopener">Finisher.Tech</a> website from version
 <a href="https://github.com/finishertech/finishertech.github.io/releases/tag/v0.9.2-src" target="_blank" rel="noopener">v0.9.2</a> to v1.0.0.
-We&#8217;ll be exercising the following technologies while doing this:</p>
+We&#8217;ll be exercising the following practices and technologies while doing
+this:</p>
 </div>
-<div class="ulist">
-<ul>
+<div class="olist arabic">
+<ol class="arabic">
+<li>
+<p><a href="https://en.wikipedia.org/wiki/Behavior-driven_development" target="_blank" rel="noopener">BDD</a> with <a href="https://cucumber.io/" target="_blank" rel="noopener">Cucumber</a>.</p>
+</li>
+<li>
+<p><a href="https://www.gnu.org/software/bash/" target="_blank" rel="noopener">Bash</a> and some command line tools like:</p>
+<div class="olist loweralpha">
+<ol class="loweralpha" type="a">
+<li>
+<p><a href="https://git-scm.com/" target="_blank" rel="noopener">Git</a>, <a href="https://cli.github.com/" target="_blank" rel="noopener">GitHub CLI</a>, <a href="https://rsync.samba.org/" target="_blank" rel="noopener">rsync</a>, <a href="https://nodejs.org/en/" target="_blank" rel="noopener">Node.js</a>, <a href="https://yarnpkg.com/" target="_blank" rel="noopener">Yarn</a>, <a href="https://www.gnu.org/software/sed/" target="_blank" rel="noopener">sed</a>, <a href="https://pandoc.org/" target="_blank" rel="noopener">Pandoc</a>.</p>
+</li>
+</ol>
+</div>
+</li>
 <li>
 <p><a href="https://www.typescriptlang.org/" target="_blank" rel="noopener">TypeScript</a>.</p>
 </li>
@@ -490,15 +531,17 @@ We&#8217;ll be exercising the following technologies while doing this:</p>
 <li>
 <p><a href="https://nextjs.org/" target="_blank" rel="noopener">Next.js</a>.</p>
 </li>
-</ul>
+</ol>
 </div>
 </div>
 </div>
 <div class="sect1">
-<h2 id="software-requirements"><a class="anchor" href="#software-requirements"></a>2. Software requirements</h2>
+<h2 id="software"><a class="anchor" href="#software"></a>2. Software</h2>
 <div class="sectionbody">
-<div class="ulist">
-<ul>
+<div class="sect2">
+<h3 id="requirements"><a class="anchor" href="#requirements"></a>2.1. Requirements</h3>
+<div class="olist arabic">
+<ol class="arabic">
 <li>
 <p><a href="https://www.gnu.org/software/bash/" target="_blank" rel="noopener">Bash</a> installed. <a href="#bash-version">[bash-version]</a></p>
 </li>
@@ -515,22 +558,29 @@ We&#8217;ll be exercising the following technologies while doing this:</p>
 <p><a href="https://yarnpkg.com/" target="_blank" rel="noopener">Yarn</a> installed. <a href="#yarn-version">[yarn-version]</a></p>
 </li>
 <li>
+<p><a href="https://rsync.samba.org/" target="_blank" rel="noopener">rsync</a> installed. <a href="#rsync-version">[rsync-version]</a></p>
+</li>
+<li>
+<p><a href="https://www.gnu.org/software/sed/" target="_blank" rel="noopener">sed</a> installed. <a href="#sed-version">[sed-version]</a></p>
+</li>
+<li>
+<p><a href="https://pandoc.org/" target="_blank" rel="noopener">Pandoc</a> installed. <a href="#pandoc-version">[pandoc-version]</a></p>
+</li>
+</ol>
+</div>
+<div class="paragraph">
 <p>Optional:</p>
-<div class="ulist">
-<ul>
+</div>
+<div class="olist arabic">
+<ol class="arabic">
 <li>
 <p>An IDE (like <a href="https://www.jetbrains.com/idea/" target="_blank" rel="noopener">IntelliJ IDEA</a> or <a href="https://code.visualstudio.com/" target="_blank" rel="noopener">Visual Studio Code</a>).</p>
 </li>
-</ul>
-</div>
-</li>
-</ul>
+</ol>
 </div>
 </div>
-</div>
-<div class="sect1">
-<h2 id="software-versions"><a class="anchor" href="#software-versions"></a>3. Software versions</h2>
-<div class="sectionbody">
+<div class="sect2">
+<h3 id="versions"><a class="anchor" href="#versions"></a>2.2. Versions</h3>
 <div class="paragraph">
 <p>My environment and software versions used in this tutorial:</p>
 </div>
@@ -556,9 +606,8 @@ git version 2.30.0</pre>
 </div>
 <div id="gh-version" class="listingblock">
 <div class="content">
-<pre>$ gh --version
-gh version 1.4.0 (2020-12-15)
-https://github.com/cli/cli/releases/latest</pre>
+<pre>$ gh --version | head -1
+gh version 1.4.0 (2020-12-15)</pre>
 </div>
 </div>
 <div id="node-version" class="listingblock">
@@ -573,13 +622,32 @@ v12.18.3</pre>
 1.22.4</pre>
 </div>
 </div>
+<div id="sed-version" class="listingblock">
+<div class="content">
+<pre>$ sed --version | head -1
+gsed (GNU sed) 4.8</pre>
+</div>
+</div>
+<div id="rsync-version" class="listingblock">
+<div class="content">
+<pre>$ rsync --version | head -1
+rsync  version 2.6.9  protocol version 29</pre>
+</div>
+</div>
+<div id="pandoc-version" class="listingblock">
+<div class="content">
+<pre>$ pandoc --version | head -1
+pandoc 2.11.3.2</pre>
+</div>
+</div>
+</div>
 </div>
 </div>
 <div class="sect1">
-<h2 id="our-starting-point"><a class="anchor" href="#our-starting-point"></a>4. Our starting point</h2>
+<h2 id="our-starting-point"><a class="anchor" href="#our-starting-point"></a>3. Our starting point</h2>
 <div class="sectionbody">
 <div class="sect2">
-<h3 id="downloading-this-tutorial"><a class="anchor" href="#downloading-this-tutorial"></a>4.1. Downloading this tutorial</h3>
+<h3 id="downloading-this-tutorial"><a class="anchor" href="#downloading-this-tutorial"></a>3.1. Downloading this tutorial</h3>
 <div class="listingblock">
 <div class="content">
 <pre>$ mkdir -p ~/tmp</pre>
@@ -597,7 +665,7 @@ v12.18.3</pre>
 </div>
 </div>
 <div class="sect2">
-<h3 id="downloading-and-testing-finisher-tech-website-0-9-2"><a class="anchor" href="#downloading-and-testing-finisher-tech-website-0-9-2"></a>4.2. Downloading and testing Finisher.Tech website 0.9.2</h3>
+<h3 id="downloading-and-testing-finisher-tech-website-0-9-2"><a class="anchor" href="#downloading-and-testing-finisher-tech-website-0-9-2"></a>3.2. Downloading and testing Finisher.Tech website 0.9.2</h3>
 <div class="paragraph">
 <p>The version <a href="https://github.com/finishertech/finishertech.github.io/releases/tag/v0.9.2-src" target="_blank" rel="noopener">v0.9.2</a> of the Finisher.Tech website was created by following
 <a href="https://finisher.tech/tutorial-1/" target="_blank" rel="noopener">this tutorial</a>.<br>
@@ -634,10 +702,10 @@ after that, we stop its execution started above with a <span class="keyseq"><kbd
 </div>
 </div>
 <div class="sect1">
-<h2 id="generating-and-reading-the-file-events-json-from-an-independent-github-repository"><a class="anchor" href="#generating-and-reading-the-file-events-json-from-an-independent-github-repository"></a>5. Generating and reading the file events.json from an independent GitHub repository</h2>
+<h2 id="generating-and-reading-the-file-events-json-from-an-independent-github-repository"><a class="anchor" href="#generating-and-reading-the-file-events-json-from-an-independent-github-repository"></a>4. Generating and reading the file events.json from an independent GitHub repository</h2>
 <div class="sectionbody">
 <div class="sect2">
-<h3 id="creating-the-repository-and-reading-the-file-from-it"><a class="anchor" href="#creating-the-repository-and-reading-the-file-from-it"></a>5.1. Creating the repository and reading the file from it</h3>
+<h3 id="creating-the-repository-and-reading-the-file-from-it"><a class="anchor" href="#creating-the-repository-and-reading-the-file-from-it"></a>4.1. Creating the repository and reading the file from it</h3>
 <div class="listingblock">
 <div class="content">
 <pre>$ cd ..; rm -rf finishertech-website-data &amp;&amp; mkdir $_ &amp;&amp; cd $_ &amp;&amp; d=$_</pre>
@@ -730,6 +798,113 @@ $ (cd ../initial/$d; rsync -R cucumber/events-scenarios.steps.ts ../../$d)</pre>
 $ git commit -m 'Feature "Events Management", Scenario "Creating events from an existing file" passed'</pre>
 </div>
 </div>
+</div>
+<div class="sect2">
+<h3 id="creating-events-yaml-and-generating-events-json-from-it"><a class="anchor" href="#creating-events-yaml-and-generating-events-json-from-it"></a>4.2. Creating events.yaml and generating events.json from it</h3>
+<div class="sect3">
+<h4 id="creating-events-yaml-from-events-json"><a class="anchor" href="#creating-events-yaml-from-events-json"></a>4.2.1. Creating events.yaml from events.json</h4>
+<div class="listingblock">
+<div class="content">
+<pre>$ yarn add js-yaml --dev</pre>
+</div>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre>$ echo tmp &gt;&gt; .gitignore
+$ mkdir tmp
+$ `yarn bin`/js-yaml events.json &gt; tmp/events.yaml</pre>
+</div>
+</div>
+</div>
+<div class="sect3">
+<h4 id="converting-body-element-to-asciidoc-format"><a class="anchor" href="#converting-body-element-to-asciidoc-format"></a>4.2.2. Converting body element to AsciiDoc format</h4>
+<div class="listingblock">
+<div class="content">
+<pre>$ cd tmp
+$ sed -n '6,60p' events.yaml &gt; 1.html
+$ pandoc --wrap=none -f html -t asciidoc 1.html &gt; 1.adoc
+$ sed -n '66,230p' events.yaml &gt; 2.html
+$ pandoc --wrap=none -f html -t asciidoc 2.html &gt; 2.adoc
+$ for f in {1,2}.adoc; do \
+sed -i 's/\([^ ]\) \([,\?\.]\)/\1\2/g' $f; \
+sed 's/^/    /g' $f &gt; $f.indented ; \
+done
+$ sed -i -e '66,230d' -e '6,60d' events.yaml
+$ sed -i -e '10r 2.adoc.indented' -e '5r 1.adoc.indented' events.yaml
+$ sed -i -e 's/^    $//g' events.yaml
+$ cp events.yaml ..
+$ cd ..</pre>
+</div>
+</div>
+<div class="admonitionblock note">
+<table>
+<tr>
+<td class="icon">
+<i class="fa icon-note" title="Note"></i>
+</td>
+<td class="content">
+<div class="olist arabic">
+<ol class="arabic">
+<li>
+<p><code>sed</code> on my environmet is <code>gsed</code>.</p>
+</li>
+</ol>
+</div>
+</td>
+</tr>
+</table>
+</div>
+</div>
+<div class="sect3">
+<h4 id="validating-events-yaml"><a class="anchor" href="#validating-events-yaml"></a>4.2.3. Validating events.yaml</h4>
+<div class="listingblock">
+<div class="content">
+<pre>$ yarn add yaml-validator --dev
+$ `yarn bin`/yaml-validator -w events.yaml</pre>
+</div>
+</div>
+</div>
+</div>
+<div class="sect2">
+<h3 id="using-asciidoctor-js"><a class="anchor" href="#using-asciidoctor-js"></a>4.3. Using Asciidoctor.js</h3>
+
+</div>
+<div class="sect2">
+<h3 id="creating-events-json-programatically"><a class="anchor" href="#creating-events-json-programatically"></a>4.4. Creating events.json programatically</h3>
+
+</div>
+<div class="sect2">
+<h3 id="puting-aside-events-yaml-and-generating-events-json-from-individuals-asciidoc-files"><a class="anchor" href="#puting-aside-events-yaml-and-generating-events-json-from-individuals-asciidoc-files"></a>4.5. Puting aside events.yaml and generating events.json from individuals AsciiDoc files</h3>
+
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="adicional-resources"><a class="anchor" href="#adicional-resources"></a>5. Adicional resources</h2>
+<div class="sectionbody">
+<div class="dlist">
+<dl>
+<dt class="hdlist1"><a href="https://reactjs.org/" target="_blank" rel="noopener">React</a> and the first version of the Finisher.Tech website tutorial: </dt>
+<dd>
+<div class="ulist">
+<ul>
+<li>
+<p><a href="https://finisher.tech/tutorial-1" class="bare">https://finisher.tech/tutorial-1</a></p>
+</li>
+</ul>
+</div>
+</dd>
+<dt class="hdlist1"><a href="https://en.wikipedia.org/wiki/Behavior-driven_development" target="_blank" rel="noopener">BDD</a>, <a href="https://cucumber.io/" target="_blank" rel="noopener">Cucumber</a>, <a href="https://github.com/bencompton/jest-cucumber" target="_blank" rel="noopener">Jest Cucumber</a>: </dt>
+<dd>
+<div class="ulist">
+<ul>
+<li>
+<p><a href="https://paulojeronimo.com/bdd-tutorial" class="bare">https://paulojeronimo.com/bdd-tutorial</a></p>
+</li>
+</ul>
+</div>
+</dd>
+</dl>
 </div>
 </div>
 </div>

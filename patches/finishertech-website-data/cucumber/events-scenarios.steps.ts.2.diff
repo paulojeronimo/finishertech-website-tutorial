@@ -1,0 +1,15 @@
+diff --git a/cucumber/events-scenarios.feature b/cucumber/events-scenarios.feature
+index c3780ba..976de50 100644
+--- a/cucumber/events-scenarios.feature
++++ b/cucumber/events-scenarios.feature
+@@ -1,4 +1,10 @@
+ Feature: Events management
++	Scenario: Creating a file "events.json" from a file "events.yaml"
++		Given I have a file "events.yaml"
++		When I call a conversion tool using it
++		And it has a correct syntax and semantic
++		And it has two events registered
++		Then a file "events.json" should be generated
+ 	Scenario: Creating events from an existing file
+ 		Given I have an existing file with two events registered
+ 		When I import this file
